@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'CatDatabase',
 ]
 
+AUTH_USER_MODEL = "app.Account"
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

@@ -7,7 +7,7 @@ from datetime import datetime
 
 
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from .models import Account
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
@@ -52,10 +52,10 @@ def about(request):
 
 @login_required
 def menu(request):
-    check_employee = request.user.groups.filter(name='employee').exists()
+    check_employee = request.user.groups.filter(name__in=['Admin', 'Medical Staff', 'Caretaker']).exists()
 
     # Fetch all users from the database
-    users = User.objects.all()
+    users = Account.objects.all()
 
     context = {
         'title': 'Main Menu',
