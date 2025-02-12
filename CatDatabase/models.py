@@ -26,3 +26,32 @@ class Treatment(models.Model):
 
     def __str__(self):
         return str(self.TreatmentName)
+    
+class Appointment(models.Model):
+    AppointmentID = models.AutoField(primary_key=True)
+    UserID = models.ForeignKey(djangoUser, on_delete=models.CASCADE, null=True, blank=True)
+    CatID = models.ForeignKey(Cat, on_delete=models.CASCADE, null=True, blank=True)
+    Date = models.DateField(blank=True)
+    Time = models.TimeField(blank=True)
+    Reason = models.CharField(max_length=500)
+
+    def __str__(self):
+        return str(self.AppointmentID)
+
+class Medication(models.Model):
+    MedicationID = models.AutoField(primary_key=True)
+    TreatmentID = models.ForeignKey(Treatment, on_delete=models.CASCADE, null=True, blank=True)
+    MedicationName = models.CharField(max_length=200)
+    Dosage = models.IntegerField()
+    Frequency = models.IntegerField()
+    Description = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return str(self.MedicationName)
+    
+class Report(models.Model):
+    ReportID = models.AutoField(primary_key=True)
+    CatID = models.ForeignKey(Cat, on_delete=models.CASCADE, null=True, blank=True)
+    Date = models.DateField(blank=True)
+    Details = models.CharField(max_length=1000)
+    ReportType = models.CharField(max_length=100)
