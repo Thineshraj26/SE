@@ -105,11 +105,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+LOGIN_REDIRECT_URL = '/'  # Redirect to menu page after login
 LOGOUT_REDIRECT_URL = '/'  # Redirect to home page after logout
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 SESSION_COOKIE_AGE = 300  # 5 minutes (in seconds)
-LOGIN_REDIRECT_URL = '/menu'
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.1/topics/i18n/
