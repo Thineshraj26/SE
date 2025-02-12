@@ -6,7 +6,7 @@ djangoUser = get_user_model();
 # Create your models here.
 class Cat(models.Model):
     CatID = models.AutoField(primary_key=True)
-    UserID = models.ForeignKey(djangoUser, on_delete=models.CASCADE)
+    UserID = models.ForeignKey(djangoUser, on_delete=models.CASCADE, null=True, blank=True)
     Name = models.CharField(max_length=50)
     Breed = models.CharField(max_length=50)
     Age = models.IntegerField()
