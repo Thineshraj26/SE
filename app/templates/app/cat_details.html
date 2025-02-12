@@ -39,7 +39,8 @@
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-outline-primary" onclick="goBack()">Back</button>
                  <a href="{% url 'cat_scheduler_checkup' %}" class="btn btn-primary"> Schedule Checkup</a>
-                 <a href="{% url 'medical_cat_detail' %}" class="btn btn-primary"> Medication </a>
+                 <a href="{% url 'medical_cat_detail' cat.CatID %}" class="btn btn-primary"> Medication </a>
+
             </div>
         </div>
     </div>

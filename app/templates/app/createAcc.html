@@ -31,7 +31,7 @@
         <h1 class="text-center">Kitty Haven</h1>
         <p class="text-center">A safe haven for all cats</p>
 
-        <div class="card p-4 shadow" style="width: 350px;">
+        <div class="card p-4 shadow" style="width: 400px;">
             <h5 class="fw-bold">Create Account</h5>
             <form method="POST" class="needs-validation" novalidate onsubmit="return validatePasswords()">
                 {% csrf_token %}
@@ -47,6 +47,10 @@
                 <div class="mb-3">
                     <label class="form-label">{{ form.username.label }}</label>
                     {{ form.username }}
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">{{ form.email.label }}</label>
+                    {{ form.email }}
                 </div>
                 <div class="mb-3">
                     <label class="form-label">{{ form.role.label }}</label>

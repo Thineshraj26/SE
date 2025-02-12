@@ -9,7 +9,7 @@ from .forms import CatForm, AccountCreationForm, AppointmentForm
 
 from django.contrib.auth.decorators import login_required
 from .models import Account
-from CatDatabase.models import Cat
+from CatDatabase.models import Cat, Treatment
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
@@ -115,8 +115,17 @@ def cat_scheduler_checkup(request):
         form = AppointmentForm()
     
     return render(request, 'app/cat_scheduler_checkup.html', {'form': form})
-def medical_cat_detail(request):
-    return render(request, 'app/medical_cat_detail.html')
+
+
+def medical_cat_detail(request, cat_id):
+    cat = get_object_or_404(Cat, CatID=cat_id)
+    treatments = Treatment.objects.filter(CatID=cat)  # Get treatments for this cat
+
+    return render(request, 'app/medical_cat_detail.html', {
+        'cat': cat,
+        'treatments': treatments
+    })
+
 
 def create_treatment(request):
     return render(request, 'app/create_treatment.html')

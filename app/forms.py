@@ -36,7 +36,7 @@ class AccountCreationForm(UserCreationForm):
 
     class Meta:
         model = models.Account
-        fields = ['first_name', 'last_name', 'username', 'password1', 'password2', 'role']
+        fields = ['first_name', 'last_name', 'username','email', 'password1', 'password2', 'role']
 
 class AppointmentForm(forms.ModelForm):
     class Meta:
