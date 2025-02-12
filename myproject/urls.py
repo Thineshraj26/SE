@@ -35,9 +35,12 @@ urlpatterns = [
         LogoutView.as_view(template_name = 'app/index.html'),
         name='logout'),
     re_path(r'^menu$', main_views.menu, name='menu'),
-path('create-account/', views.create_account, name='create_account'),
-path('configure-account/', views.configure_account, name='configure_account'),
-    path('change-password/', views.change_password, name='change_password'),  # Add this line
-
-
+    path('create-account/', views.create_account, name='create_account'),
+    path('configure-account/', views.configure_account, name='configure_account'),
+    path('change-password/', views.change_password, name='change_password'),
+    path('system_settings', views.system_settings, name='system_settings' ),
+    path('cat-list/', views.cat_list, name='cat_list'),
+    path('create-cat/', views.create_cat, name='create_cat'),
+    path('cat-details/<int:cat_id>/', views.cat_details, name='cat_details'),
+    path('cat_scheduler_checkup',views.cat_scheduler_checkup, name='cat_scheduler_checkup'),
 ]

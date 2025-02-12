@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Account
 # Create your views here.
 from django.http import HttpRequest
@@ -8,6 +8,7 @@ from datetime import datetime
 
 from django.contrib.auth.decorators import login_required
 from .models import Account
+from CatDatabase.models import Cat
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
@@ -52,7 +53,7 @@ def about(request):
 
 @login_required
 def menu(request):
-    check_employee = request.user.groups.filter(name__in=['Admin', 'Medical Staff', 'Caretaker']).exists()
+    check_employee = request.user.groups.filter(name__in=['User', 'Medical Staff', 'Caretaker']).exists()
 
     # Fetch all users from the database
     users = Account.objects.all()
@@ -67,9 +68,22 @@ def menu(request):
 
     return render(request, 'app/menu.html', context)
 
+def cat_list(request):
+    cats = Cat.objects.all()
+    return render(request, 'app/cat_list.html', {'cats': cats})
 def create_account(request):
     return render(request, 'app/createAcc.html')
 def configure_account(request):
     return render(request, 'app/configureAcc.html')
 def change_password(request):
     return render(request, 'app/changePassword.html')
+def system_settings(request):
+    return render(request, 'app/system_settings.html')
+def create_cat(request):
+    return render(request, 'app/createCat.html')
+
+def cat_details(request, cat_id):
+    cat = get_object_or_404(Cat, CatID=cat_id)  # Use correct field name
+    return render(request, 'app/cat_details.html', {'cat': cat})
+def cat_scheduler_checkup(request):
+    return render(request, 'app/cat_scheduler_checkup.html')
