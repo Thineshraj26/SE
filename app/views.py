@@ -4,6 +4,7 @@ from .models import Account
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
+from .forms import CatForm
 
 
 from django.contrib.auth.decorators import login_required
@@ -80,7 +81,15 @@ def change_password(request):
 def system_settings(request):
     return render(request, 'app/system_settings.html')
 def create_cat(request):
-    return render(request, 'app/createCat.html')
+    if request.method == "POST":
+        form = CatForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('home')  # Redirect to a success page (change as needed)
+    else:
+        form = CatForm()
+
+    return render(request, 'app/createCat.html', {'form': form})
 
 def cat_details(request, cat_id):
     cat = get_object_or_404(Cat, CatID=cat_id)  # Use correct field name
