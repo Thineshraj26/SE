@@ -60,4 +60,3 @@ class Account(AbstractUser):
     
     class Meta:
         app_label = "app"
-

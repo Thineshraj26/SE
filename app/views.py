@@ -4,7 +4,7 @@ from .models import Account
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
-from .forms import CatForm, AccountCreationForm, AppointmentForm
+from .forms import CatForm, AccountCreationForm, AppointmentForm, TreatmentForm
 
 
 from django.contrib.auth.decorators import login_required
@@ -129,7 +129,19 @@ def medical_cat_detail(request, cat_id):
 
 
 def create_treatment(request, cat_id):
-    return render(request, 'app/create_treatment.html', {'cat_id': cat_id})
+    cat = get_object_or_404(Cat, pk=cat_id)  # Ensure the cat exists
+
+    if request.method == "POST":
+        form = TreatmentForm(request.POST)
+        if form.is_valid():
+            treatment = form.save(commit=False)
+            treatment.CatID = cat  # Assign the foreign key
+            treatment.save()
+            return redirect("medical_cat_detail", cat_id=cat_id)
+    else:
+        form = TreatmentForm()
+
+    return render(request, "app/create_treatment.html", {"form": form, "cat_id": cat_id})
 
 
 @login_required
