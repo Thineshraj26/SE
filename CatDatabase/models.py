@@ -15,3 +15,11 @@ class Cat(models.Model):
 
     def __str__(self):
         return str(self.Name)
+
+class Treatment(models.Model):
+    TreatmentID = models.AutoField(primary_key=True)
+    CatID = models.ForeignKey(Cat, on_delete=models.CASCADE, null=True, blank=True)
+    TreatmentName = models.CharField(max_length=200)
+    StartDate = models.DateField(blank=True)
+    EndDate = models.DateField(blank=True)
+    Description = models.CharField(max_length=1000)
