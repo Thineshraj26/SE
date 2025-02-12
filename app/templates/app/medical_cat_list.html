@@ -2,17 +2,8 @@
 
 {% block content %}
 <div class="container border p-4">
-    <h2 class="fw-bold border-bottom pb-2">Management Bar</h2>
 
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <div>
-            <a href="{% url 'menu' %}" class="btn btn-primary">Manage Account</a>
-            <a href="{% url 'system_settings' %}" class="btn btn-primary"> System Setting</a>
-            <a href="{% url 'cat_list' %}" class="btn btn-primary"> Cat List</a>
-        </div>
-    </div>
-
-    <h3 class="fw-bold">Cat List</h3>
+ <h3 class="fw-bold">Cat List</h3>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
@@ -44,7 +35,4 @@
     </div>
 </div>
 
-<div class="mt-3">
-    <a href="{% url 'create_cat' %}" class="btn btn-primary">Add Cat</a>
-</div>
 {% endblock %}
