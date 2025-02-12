@@ -4,7 +4,7 @@ from .models import Account
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
-from .forms import CatForm
+from .forms import CatForm, AccountCreationForm
 
 
 from django.contrib.auth.decorators import login_required
@@ -73,7 +73,18 @@ def cat_list(request):
     cats = Cat.objects.all()
     return render(request, 'app/cat_list.html', {'cats': cats})
 def create_account(request):
-    return render(request, 'app/createAcc.html')
+    if request.method == "POST":
+        form = AccountCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)  # Create user but don't save yet
+            role = form.cleaned_data['role']  # Get the role from the form
+            user.save()  # Save user
+            user.assign_group(role)  # Assign role group
+            return redirect('/')  # Redirect to homepage after successful registration
+    else:
+        form = AccountCreationForm()
+
+    return render(request, "app/createAcc.html", {"form": form})
 def configure_account(request):
     return render(request, 'app/configureAcc.html')
 def change_password(request):
