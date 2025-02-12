@@ -23,3 +23,6 @@ class Treatment(models.Model):
     StartDate = models.DateField(blank=True)
     EndDate = models.DateField(blank=True)
     Description = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return str(self.TreatmentName)
