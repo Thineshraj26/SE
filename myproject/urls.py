@@ -20,7 +20,7 @@ import django.contrib.auth.views
 from django.contrib.auth.views import LoginView, LogoutView
 from datetime import datetime
 from app import views
-from app.views import medical_cat_detail
+from app.views import medical_cat_detail, create_treatment
 
 admin.autodiscover()
 
@@ -47,6 +47,8 @@ urlpatterns = [
     path('medical_cat_detail/<int:cat_id>/', medical_cat_detail, name='medical_cat_detail'),
     path('medical-cat-list/', views.medical_cat_list, name='medical_cat_list'),
     path('caretaker-duty-panel/', views.caretaker_duty_panel, name='caretaker_duty_panel'),
-    path('create-treatment/', views.create_treatment, name='create_treatment'),
+    path('create-treatment/<int:cat_id>/', views.create_treatment, name='create_treatment'),
+
+
 
 ]

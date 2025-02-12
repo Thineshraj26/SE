@@ -118,17 +118,20 @@ def cat_scheduler_checkup(request):
 
 
 def medical_cat_detail(request, cat_id):
-    cat = get_object_or_404(Cat, CatID=cat_id)
-    treatments = Treatment.objects.filter(CatID=cat)  # Get treatments for this cat
+    cat = get_object_or_404(Cat, CatID=cat_id)  # Ensure the cat exists
+    treatments = Treatment.objects.filter(CatID=cat_id)
+
 
     return render(request, 'app/medical_cat_detail.html', {
-        'cat': cat,
-        'treatments': treatments
+        'treatments': treatments,
+        'CatID': cat_id,  # Ensure this key is passed
     })
 
 
-def create_treatment(request):
-    return render(request, 'app/create_treatment.html')
+def create_treatment(request, cat_id):
+    return render(request, 'app/create_treatment.html', {'cat_id': cat_id})
+
+
 @login_required
 def medical_cat_list(request):
     cats = Cat.objects.all()

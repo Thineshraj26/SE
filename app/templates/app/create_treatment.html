@@ -5,7 +5,8 @@
     <h2 class="fw-bold">Cat Management System</h2>
     <h3 class="fw-bold mt-3 border-bottom pb-2">Create Treatment</h3>
     
-    <form method="post" action="{% url 'create_treatment' %}">
+    <form method="post" action="{% url 'create_treatment' cat_id %}">
+
         {% csrf_token %}
         
         <div class="mb-3">
@@ -29,7 +30,9 @@
         </div>
         
         <div class="d-flex justify-content-end">
-            <a href="{% url 'medical_cat_detail' %}" class="btn btn-secondary me-2">Cancel</a>
+<a href="{% url 'medical_cat_detail' cat_id=cat_id %}" class="btn btn-secondary me-2">Cancel</a>
+
+
 
             <button type="submit" class="btn btn-primary">Create</button>
         </div>
