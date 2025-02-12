@@ -2,37 +2,45 @@
 
 {% block content %}
 <div class="container border p-4">
+    <h2 class="fw-bold border-bottom pb-2">Cat Management System</h2>
 
-    <h3 class="fw-bold">Cat List</h3>
+    <div class="mb-3">
+        <label class="form-label fw-bold">ID:</label>
+        <span class="form-control">{{ cat.CatID }}</span>
+    </div>
+    <div class="mb-3">
+        <label class="form-label fw-bold">Breed:</label>
+        <span class="form-control">{{ cat.Breed }}</span>
+    </div>
+
+    <h3 class="fw-bold mt-4">Treatment</h3>
     <div class="table-responsive">
         <table class="table table-bordered">
             <thead class="table-dark">
                 <tr>
                     <th>Name</th>
                     <th>ID</th>
-                    <th>Breed</th>
+                    <th>Start</th>
+                    <th>End</th>
                 </tr>
             </thead>
             <tbody>
-                {% for cat in cats %}
+                {% for treatment in treatments %}
                 <tr>
-                    <td>
-                        <a href="{% url 'cat_details' cat.CatID %}" class="text-decoration-none">
-                            {{ cat.Name }}
-                        </a>
-
-                    </td>
-                    <td>{{ cat.CatID }}</td>
-                    <td>{{ cat.Breed }}</td>
+                    <td>{{ treatment.Name }}</td>
+                    <td>{{ treatment.CatID }}</td>
+                    <td>{{ treatment.StartDate }}</td>
+                    <td>{{ treatment.EndDate }}</td>
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="3" class="text-center">No cats found</td>
+                    <td colspan="4" class="text-center">No treatments found</td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
+    <a href="{% url 'create_treatment' %}" class="btn btn-primary"> Create Treatment</a>
+    <a href="{% url 'caretaker_duty_panel' %}" class="btn btn-secondary me-2">Cancel</a>
 </div>
-
 {% endblock %}

@@ -43,4 +43,9 @@ urlpatterns = [
     path('create-cat/', views.create_cat, name='create_cat'),
     path('cat-details/<int:cat_id>/', views.cat_details, name='cat_details'),
     path('cat_scheduler_checkup',views.cat_scheduler_checkup, name='cat_scheduler_checkup'),
+    path('medical-cat-detail/', views.medical_cat_detail, name='medical_cat_detail'),
+    path('caretaker-duty-panel/', views.caretaker_duty_panel, name='caretaker_duty_panel'),
+
+    path('create-treatment/', views.create_treatment, name='create_treatment'),
+
 ]

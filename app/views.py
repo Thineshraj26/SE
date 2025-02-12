@@ -87,7 +87,11 @@ def cat_details(request, cat_id):
     return render(request, 'app/cat_details.html', {'cat': cat})
 def cat_scheduler_checkup(request):
     return render(request, 'app/cat_scheduler_checkup.html')
+def medical_cat_detail(request):
+    return render(request, 'app/medical_cat_detail.html')
 
+def create_treatment(request):
+    return render(request, 'app/create_treatment.html')
 @login_required
 def medical_cat_detail(request):
     cats = Cat.objects.all()  # Fetch all cat data
