@@ -4,7 +4,7 @@ from .models import Account
 from django.http import HttpRequest
 from django.template import RequestContext
 from datetime import datetime
-from .forms import CatForm, AccountCreationForm
+from .forms import CatForm, AccountCreationForm, AppointmentForm
 
 
 from django.contrib.auth.decorators import login_required
@@ -106,7 +106,15 @@ def cat_details(request, cat_id):
     cat = get_object_or_404(Cat, CatID=cat_id)  # Use correct field name
     return render(request, 'app/cat_details.html', {'cat': cat})
 def cat_scheduler_checkup(request):
-    return render(request, 'app/cat_scheduler_checkup.html')
+    if request.method == "POST":
+        form = AppointmentForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('/')  # Change this to your success page
+    else:
+        form = AppointmentForm()
+    
+    return render(request, 'app/cat_scheduler_checkup.html', {'form': form})
 def medical_cat_detail(request):
     return render(request, 'app/medical_cat_detail.html')
 
