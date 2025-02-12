@@ -54,7 +54,7 @@ def about(request):
 
 def menu(request):
     if request.user.groups.filter(name="Medical Staff").exists():
-        return redirect('medical_cat_detail')  # Redirect Medical Staff
+        return redirect('medical_cat_list')  # Redirect Medical Staff
 
     if request.user.groups.filter(name="Caretaker").exists():
         return redirect('caretaker_duty_panel')  # Redirect Caretakers
@@ -102,9 +102,9 @@ def medical_cat_detail(request):
 def create_treatment(request):
     return render(request, 'app/create_treatment.html')
 @login_required
-def medical_cat_detail(request):
-    cats = Cat.objects.all()  # Fetch all cat data
-    return render(request, 'app/medical_cat_detail.html', {'cats': cats})
+def medical_cat_list(request):
+    cats = Cat.objects.all()
+    return render(request, 'app/medical_cat_list.html', {'cats': cats})
 
 @login_required
 def caretaker_duty_panel(request):
