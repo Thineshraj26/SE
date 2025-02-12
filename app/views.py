@@ -51,22 +51,22 @@ def about(request):
     )
 
 
-@login_required
 def menu(request):
-    check_employee = request.user.groups.filter(name__in=['User', 'Medical Staff', 'Caretaker']).exists()
+    if request.user.groups.filter(name="Medical Staff").exists():
+        return redirect('medical_cat_detail')  # Redirect Medical Staff
 
-    # Fetch all users from the database
+    if request.user.groups.filter(name="Caretaker").exists():
+        return redirect('caretaker_duty_panel')  # Redirect Caretakers
+
     users = Account.objects.all()
-
     context = {
         'title': 'Main Menu',
-        'is_employee': check_employee,
         'year': datetime.now().year,
-        'users': users,  # Pass users to template
+        'users': users,
         'user': request.user
     }
-
     return render(request, 'app/menu.html', context)
+
 
 def cat_list(request):
     cats = Cat.objects.all()
@@ -87,3 +87,13 @@ def cat_details(request, cat_id):
     return render(request, 'app/cat_details.html', {'cat': cat})
 def cat_scheduler_checkup(request):
     return render(request, 'app/cat_scheduler_checkup.html')
+
+@login_required
+def medical_cat_detail(request):
+    cats = Cat.objects.all()  # Fetch all cat data
+    return render(request, 'app/medical_cat_detail.html', {'cats': cats})
+
+@login_required
+def caretaker_duty_panel(request):
+    cats = Cat.objects.all()  # Fetch all cats from the database
+    return render(request, 'app/caretaker_duty_panel.html', {'cats': cats})
