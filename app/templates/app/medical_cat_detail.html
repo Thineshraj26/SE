@@ -5,12 +5,12 @@
     <h2 class="fw-bold border-bottom pb-2">Cat Management System</h2>
 
     <div class="mb-3">
-        <label class="form-label fw-bold">ID:</label>
-        <span class="form-control">{{ Cat.CatID }}</span>
+
+        <strong>ID:</strong> {{ cat.CatID }}
     </div>
     <div class="mb-3">
-        <label class="form-label fw-bold">Breed:</label>
-        <span class="form-control">{{ Cat.Breed }}</span>
+
+        <strong>Breed:</strong> {{ cat.Breed }}
     </div>
 
 <h3 class="fw-bold mt-4">Treatment</h3>
@@ -43,10 +43,11 @@
 </table>
 
 </div>
-<a href="{% url 'create_treatment' CatID %}" class="btn btn-primary">Create Treatment</a>
+<a href="{% url 'create_treatment' cat.CatID %}" class="btn btn-primary">Create Treatment</a>
 
 
-<button type="button" class="btn btn-outline-primary" onclick="window.history.back()">Cancel</button>
+
+<a href="{% url 'medical_cat_list' %}" class="btn btn-primary">Cancel</a>
 
 </div>
 {% endblock %}

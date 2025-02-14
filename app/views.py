@@ -173,19 +173,18 @@ def cat_scheduler_checkup(request, cat_id):
 
 
 def medical_cat_detail(request, cat_id):
-    cat = get_object_or_404(Cat, CatID=cat_id)  # Ensure the cat exists
-    treatments = Treatment.objects.filter(CatID=cat_id)
-
+    cat = get_object_or_404(Cat, CatID=cat_id)  # Get the cat from the Cat database
+    treatments = Treatment.objects.filter(CatID=cat)  # Use the cat instance, not just cat_id
 
     return render(request, 'app/medical_cat_detail.html', {
-        'treatments': treatments,
-        'CatID': cat_id,  # Ensure this key is passed
+        'cat': cat,  # Pass the cat object
+        'treatments': treatments,  # Pass treatments related to this cat
     })
 
 
-def create_treatment(request, cat_id):
-    cat = get_object_or_404(Cat, pk=cat_id)  # Ensure the cat exists
 
+def create_treatment(request, cat_id):
+    cat = get_object_or_404(Cat, CatID=cat_id)
     if request.method == "POST":
         form = TreatmentForm(request.POST)
         if form.is_valid():
