@@ -75,6 +75,9 @@ def menu(request):
 def cat_list(request):
     cats = Cat.objects.all()
     return render(request, 'app/cat_list.html', {'cats': cats})
+
+
+
 def create_account(request):
     if request.method == "POST":
         form = AccountCreationForm(request.POST)
@@ -189,3 +192,8 @@ def import_database(request):
         return redirect("system_settings")  # Redirect after successful import
 
     return redirect("system_settings")  # Redirect if no file was uploaded
+
+@login_required
+def report(request):
+    cats = Cat.objects.all()  # Fetch all cats from the database
+    return render(request, 'app/report.html', {'cats': cats})

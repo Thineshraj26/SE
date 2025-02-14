@@ -51,6 +51,8 @@ urlpatterns = [
     path('create-treatment/<int:cat_id>/', views.create_treatment, name='create_treatment'),
     path("backup_database/", views.backup_database, name="backup_database"),
     path("import_database/", views.import_database, name="import_database"),
+    path('report/', views.report, name='report'),
+
 
 
 
