@@ -34,7 +34,17 @@
              <td>{{user.last_name}}</td>
             <td>{{ user.id }}</td>
             <td>{{ user.email }}</td>
-            <td>{% if user.is_staff %} Admin {% else %} User {% endif %}</td>
+            <td>
+                {% if user.is_staff %}
+                    Admin
+                {% else %}
+                    {% if user.groups.all %}
+                        {{ user.groups.first.name }}  <!-- Get the first group -->
+                    {% else %}
+                        No Group
+                    {% endif %}
+                {% endif %}
+            </td>
         </tr>
         {% empty %}
         <tr>
