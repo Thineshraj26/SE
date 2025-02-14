@@ -1,4 +1,5 @@
 {% extends "app/layout.html" %}
+{% load custom_filter %}
 
 {% block content %}
 <div class="container mt-4">
@@ -21,10 +22,18 @@
                 <tr>
                     <td>{{ cat.Name }}</td>
                     <td>{{ cat.CatID }}</td>
-                    <td>{{ cat.Breed }}</td>
+                    <td>{{ cat.Breed     }}</td>
                     <td>{{ cat.Age }}</td>
                     <td>{{ cat.Checkup|default:"TBA" }}</td>
-                    <td>{{ cat.TreatmentID }}</td>
+                    <td>
+                        <ul>
+                            {% for treatment in cat_treatments|get_item:cat.CatID %}
+                                <li>{{ treatment.TreatmentID }}</li>
+                            {% empty %}
+                                <li>No treatments found.</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
                 </tr>
                 {% empty %}
                 <tr>
