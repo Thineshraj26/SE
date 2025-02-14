@@ -11,6 +11,8 @@ from django.contrib.auth.decorators import login_required
 from .models import Account
 from CatDatabase.models import Cat, Treatment, Appointment
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
+
 
 import shutil
 
@@ -115,8 +117,24 @@ def configure_account(request, user_id):
             return redirect("menu")  # Redirect after updating
 
     return render(request, "app/configureAcc.html", {"user": user})
-def change_password(request):
-    return render(request, 'app/changePassword.html')
+def change_password(request, user_id):
+    user = get_object_or_404(Account, id=user_id)
+
+    if request.method == "POST":
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if new_password != confirm_password:
+            return render(request, "app/changePassword.html", {
+                "error_message": "Passwords do not match."
+            })
+
+        # Hash and save the new password
+        user.password = make_password(new_password)
+        user.save()
+        return redirect("menu")  # Redirect after successful password change
+
+    return render(request, "app/changePassword.html")
 def system_settings(request):
     return render(request, 'app/system_settings.html')
 def create_cat(request):

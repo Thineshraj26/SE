@@ -42,6 +42,10 @@
         </select>
     </div>
 
+    <div class="text-center mb-3">
+        <a href="{% url 'change_password' user.id %}" class="btn btn-primary">Change Password</a>
+    </div>
+
     <div class="d-flex justify-content-between">
         <button type="submit" name="delete" class="btn btn-outline-danger">Delete</button>
         <button type="submit" name="update" class="btn btn-primary">Apply</button>
