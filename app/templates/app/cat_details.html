@@ -36,6 +36,10 @@
                 <strong>Characteristic:</strong>
                 <p>{{ cat.Description }}</p>
             </div>
+            <div class="mb-3">
+                <strong>Checkup:</strong> {{ report.Date }}
+
+            </div>
             <div class="d-flex justify-content-between">
                 <button type="button" class="btn btn-outline-primary" onclick="goBack()">Back</button>
                  <a href="{% url 'cat_scheduler_checkup' %}" class="btn btn-primary"> Schedule Checkup</a>

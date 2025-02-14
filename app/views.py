@@ -9,7 +9,8 @@ from .forms import CatForm, AccountCreationForm, AppointmentForm, TreatmentForm
 
 from django.contrib.auth.decorators import login_required
 from .models import Account
-from CatDatabase.models import Cat, Treatment
+from CatDatabase.models import Cat, Treatment, Report
+
 def home(request):
     """Renders the home page."""
     assert isinstance(request, HttpRequest)
@@ -102,9 +103,14 @@ def create_cat(request):
 
     return render(request, 'app/createCat.html', {'form': form})
 
+
 def cat_details(request, cat_id):
-    cat = get_object_or_404(Cat, CatID=cat_id)  # Use correct field name
-    return render(request, 'app/cat_details.html', {'cat': cat})
+    cat = get_object_or_404(Cat, CatID=cat_id)
+    report = Report.objects.filter(CatID=cat).order_by('-Date').first()  # Get latest checkup report
+
+    return render(request, 'app/cat_details.html', {'cat': cat, 'report': report})
+
+
 def cat_scheduler_checkup(request):
     if request.method == "POST":
         form = AppointmentForm(request.POST)
