@@ -38,29 +38,30 @@
     <div class="d-flex flex-column align-items-center justify-content-center">
         <div class="card p-4 shadow">
             <h5 class="fw-bold text-center">Cat Checkup Manager</h5>
-            <form method="POST">
-                {% csrf_token %}
-                
-                <div class="mb-3">
-                    <label class="form-label">{{ form.Date.label }}</label>
-                    {{ form.Date }}
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label">{{ form.Time.label }}</label>
-                    {{ form.Time }}
-                </div>
-                
-                <div class="mb-3">
-                    <label class="form-label">{{ form.Reason.label }}</label>
-                    {{ form.Reason }}
-                </div>
-                
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-primary" onclick="window.history.back()">Cancel</button>
-                    <button type="submit" class="btn btn-primary">Confirm</button>
-                </div>
+          <form method="POST" action="{% url 'cat_scheduler_checkup' cat.CatID %}">
+
+    {% csrf_token %}
+    <div class="mb-3">
+        <label class="form-label">{{ form.Date.label }}</label>
+        {{ form.Date }}
+    </div>
+
+    <div class="mb-3">
+        <label class="form-label">{{ form.Time.label }}</label>
+        {{ form.Time }}
+    </div>
+
+        <div class="mb-3">
+            <label class="form-label">{{ form.Reason.label }}</label>
+        {{ form.Reason }}
+            </div>
+
+    <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-outline-primary" onclick="window.history.back()">Cancel</button>
+        <button type="submit" class="btn btn-primary">Confirm</button>
+    </div>
             </form>
+
         </div>
     </div>
 </body>

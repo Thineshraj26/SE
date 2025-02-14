@@ -43,11 +43,14 @@ urlpatterns = [
     path('cat-list/', views.cat_list, name='cat_list'),
     path('create-cat/', views.create_cat, name='create_cat'),
     path('cat-details/<int:cat_id>/', views.cat_details, name='cat_details'),
-    path('cat_scheduler_checkup',views.cat_scheduler_checkup, name='cat_scheduler_checkup'),
+    path('cat-scheduler-checkup/<int:cat_id>/', views.cat_scheduler_checkup, name='cat_scheduler_checkup'),
+
     path('medical_cat_detail/<int:cat_id>/', medical_cat_detail, name='medical_cat_detail'),
     path('medical-cat-list/', views.medical_cat_list, name='medical_cat_list'),
     path('caretaker-duty-panel/', views.caretaker_duty_panel, name='caretaker_duty_panel'),
     path('create-treatment/<int:cat_id>/', views.create_treatment, name='create_treatment'),
+    path("backup_database/", views.backup_database, name="backup_database"),
+    path("import_database/", views.import_database, name="import_database"),
 
 
 

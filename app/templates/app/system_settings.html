@@ -23,9 +23,15 @@
         <h3 class="fw-bold">System Settings</h3>
         <div class="container">
             <div class="d-grid gap-3 mt-4">
-                <button class="btn btn-primary btn-lg btn-custom" >Backup Data</button>
-                <button class="btn btn-primary btn-lg btn-custom">Import Data</button>
-            </div>
+                 <a href="{% url 'backup_database' %}" class="btn btn-primary btn-lg btn-custom">Backup Data</a>
+
+                <form action="{% url 'import_database' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input type="file" name="db_file" class="form-control mb-2" required>
+            <button type="submit" class="btn btn-primary btn-lg btn-custom">Import Data</button>
+             </form>
+</div>
+
         </div>
 
         <div class="mt-3">

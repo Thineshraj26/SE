@@ -1,15 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Account
 # Create your views here.
-from django.http import HttpRequest
+from django.http import HttpRequest, FileResponse
 from django.template import RequestContext
 from datetime import datetime
 from .forms import CatForm, AccountCreationForm, AppointmentForm, TreatmentForm
 
-
+import os
 from django.contrib.auth.decorators import login_required
 from .models import Account
-from CatDatabase.models import Cat, Treatment, Report
+from CatDatabase.models import Cat, Treatment, Appointment
+from django.conf import settings
+import shutil
 
 def home(request):
     """Renders the home page."""
@@ -104,23 +106,27 @@ def create_cat(request):
     return render(request, 'app/createCat.html', {'form': form})
 
 
+
 def cat_details(request, cat_id):
     cat = get_object_or_404(Cat, CatID=cat_id)
-    report = Report.objects.filter(CatID=cat).order_by('-Date').first()  # Get latest checkup report
+    # Fetch the latest appointment for this cat
+    latest_appointment = Appointment.objects.filter(CatID=cat).order_by('-Date').first()
 
-    return render(request, 'app/cat_details.html', {'cat': cat, 'report': report})
+    return render(request, 'app/cat_details.html', {'cat': cat, 'appointment': latest_appointment})
 
 
-def cat_scheduler_checkup(request):
-    if request.method == "POST":
-        form = AppointmentForm(request.POST)
-        if form.is_valid():
-            form.save()
-            return redirect('/')  # Change this to your success page
-    else:
-        form = AppointmentForm()
-    
-    return render(request, 'app/cat_scheduler_checkup.html', {'form': form})
+
+def cat_scheduler_checkup(request, cat_id):
+    cat = get_object_or_404(Cat, CatID=cat_id)  # Fetch the correct cat
+    form = AppointmentForm(request.POST or None)  # Load form with POST data if available
+
+    if request.method == 'POST' and form.is_valid():
+        checkup = form.save(commit=False)
+        checkup.CatID = cat  # Assign the correct cat
+        checkup.save()
+        return redirect('cat_details', cat_id=cat.CatID)  # Redirect after saving
+
+    return render(request, 'app/cat_scheduler_checkup.html', {'form': form, 'cat': cat})
 
 
 def medical_cat_detail(request, cat_id):
@@ -158,4 +164,28 @@ def medical_cat_list(request):
 @login_required
 def caretaker_duty_panel(request):
     cats = Cat.objects.all()  # Fetch all cats from the database
-    return render(request, 'app/caretaker_duty_panel.html', {'cats': cats})
+    today_date = datetime.now().strftime('%d/%m/%Y')  # Format: DD/MM/YYYY
+    current_time = datetime.now().strftime('%H:%M')  # Format: HH:MM
+
+    return render(request, 'app/caretaker_duty_panel.html', {'cats': cats, 'today_date': today_date,
+        'current_time': current_time})
+
+def backup_database(request):
+    db_path = os.path.join(settings.BASE_DIR, "db.sqlite3")
+    response = FileResponse(open(db_path, "rb"), as_attachment=True, filename="backup.sqlite3")
+    return response
+
+
+def import_database(request):
+    if request.method == "POST" and request.FILES.get("db_file"):
+        new_db = request.FILES["db_file"]
+        db_path = os.path.join(settings.BASE_DIR, "db.sqlite3")
+
+        # Save the uploaded file as the new database
+        with open(db_path, "wb") as f:
+            for chunk in new_db.chunks():
+                f.write(chunk)
+
+        return redirect("system_settings")  # Redirect after successful import
+
+    return redirect("system_settings")  # Redirect if no file was uploaded
