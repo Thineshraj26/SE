@@ -237,3 +237,19 @@ def import_database(request):
 def report(request):
     cats = Cat.objects.all()  # Fetch all cats from the database
     return render(request, 'app/report.html', {'cats': cats})
+
+def configure_cat(request, cat_id):
+    cat = get_object_or_404(Cat, id=cat_id)
+
+    if request.method == "POST":
+        if 'update' in request.POST:
+            cat.Name = request.POST.get('name')
+            cat.Breed = request.POST.get('breed')
+            cat.Age = request.POST.get('age')
+            cat.Description = request.POST.get('description')
+            cat.save()
+        elif 'delete' in request.POST:
+            cat.delete()
+            return redirect('cat_list')  # Redirect to cat list after deletion
+
+    return render(request, 'app/configureCat.html', {'cat': cat})

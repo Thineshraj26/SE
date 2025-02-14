@@ -20,6 +20,9 @@
                     <th>Name</th>
                     <th>ID</th>
                     <th>Breed</th>
+                    {% if user.is_superuser %}  {# Ensure only admins see this column #}
+                        <th>Actions</th>
+                    {% endif %}
                 </tr>
             </thead>
             <tbody>
@@ -29,14 +32,19 @@
                         <a href="{% url 'cat_details' cat.CatID %}" class="text-decoration-none">
                             {{ cat.Name }}
                         </a>
-
                     </td>
                     <td>{{ cat.CatID }}</td>
                     <td>{{ cat.Breed }}</td>
+                    {% if user.is_superuser %}
+                        <td>
+                            <a href="{% url 'configure_cat' cat.CatID %}" class="btn btn-warning btn-sm">Edit</a>
+
+                        </td>
+                    {% endif %}
                 </tr>
                 {% empty %}
                 <tr>
-                    <td colspan="3" class="text-center">No cats found</td>
+                    <td colspan="4" class="text-center">No cats found</td>
                 </tr>
                 {% endfor %}
             </tbody>
