@@ -240,7 +240,7 @@ def report(request):
     return render(request, 'app/report.html', {'cats': cats, 'cat_treatments': cat_treatments})
 
 def configure_cat(request, cat_id):
-    cat = get_object_or_404(Cat, id=cat_id)
+    cat = get_object_or_404(Cat, CatID=cat_id)  # Correct field name
 
     if request.method == "POST":
         if 'update' in request.POST:
