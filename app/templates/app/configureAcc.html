@@ -24,32 +24,39 @@
 
         <div class="card p-4 shadow" style="width: 350px;">
             <h5 class="fw-bold">Configure Account</h5>
-            <form>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="Name" required>
-                </div>
-                <div class="mb-3">
-                    <input type="text" class="form-control" placeholder="ID" required>
-                </div>
-                <div class="mb-3">
-                    <select class="form-select" required>
-                        <option selected disabled>Role</option>
-                        <option value="staff">Medical Staff</option>
-                        <option value="caretaker">Caretaker</option>
-                    </select>
-                </div>
+            <form method="POST">
+    {% csrf_token %}
+    <div class="mb-3">
+        <input type="text" class="form-control" name="full_name"
+               value="{{ user.first_name }} {{ user.last_name }}" placeholder="Full Name">
+    </div>
 
-                <div class="text-center mb-3">
-    <a href="{% url 'change_password' %}" class="btn btn-primary">Change Password</a>
+    <div class="mb-3">
+        <input type="text" class="form-control" name="username" value="{{ user.username }}">
+    </div>
+
+    <div class="mb-3">
+        <select class="form-select" name="role" required>
+            <option value="staff" {% if user.role == 'staff' %}selected{% endif %}>Medical Staff</option>
+            <option value="caretaker" {% if user.role == 'caretaker' %}selected{% endif %}>Caretaker</option>
+        </select>
+    </div>
+
+    <div class="text-center mb-3">
+        <a href="{% url 'change_password' user.id %}" class="btn btn-primary">Change Password</a>
+    </div>
+
+    <div class="d-flex justify-content-between">
+        <button type="submit" name="delete" class="btn btn-outline-danger">Delete</button>
+        <button type="submit" name="update" class="btn btn-primary">Apply</button>
+    </div>
+</form>
+
+
+
 </div>
 
 
-                <div class="d-flex justify-content-between">
-                    <button type="button" class="btn btn-outline-danger" onclick="confirmDelete()">Delete</button>
-                    <button type="button" class="btn btn-outline-secondary" onclick="goBack()">Cancel</button>
-                    <button type="submit" class="btn btn-primary" onclick="goBack()">Apply</button>
-                </div>
-            </form>
         </div>
     </div>
 </body>

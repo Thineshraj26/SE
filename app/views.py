@@ -11,6 +11,9 @@ from django.contrib.auth.decorators import login_required
 from .models import Account
 from CatDatabase.models import Cat, Treatment, Appointment
 from django.conf import settings
+from django.contrib.auth.hashers import make_password
+
+
 import shutil
 
 def home(request):
@@ -91,10 +94,47 @@ def create_account(request):
         form = AccountCreationForm()
 
     return render(request, "app/createAcc.html", {"form": form})
-def configure_account(request):
-    return render(request, 'app/configureAcc.html')
-def change_password(request):
-    return render(request, 'app/changePassword.html')
+
+
+def configure_account(request, user_id):
+    user = get_object_or_404(Account, id=user_id)  # Fetch user
+
+    if request.method == "POST":
+        if "delete" in request.POST:  # Handle Delete
+            user.delete()
+            return redirect("menu")  # Redirect to menu after deletion
+
+        elif "update" in request.POST:  # Handle Update
+            full_name = request.POST.get("full_name", "").strip()
+            name_parts = full_name.split(" ", 1)  # Split into first and last name
+
+            user.first_name = name_parts[0]  # First part as first name
+            user.last_name = name_parts[1] if len(name_parts) > 1 else ""  # Second part (if available) as last name
+            user.username = request.POST.get("username")
+            user.role = request.POST.get("role")
+
+            user.save()
+            return redirect("menu")  # Redirect after updating
+
+    return render(request, "app/configureAcc.html", {"user": user})
+def change_password(request, user_id):
+    user = get_object_or_404(Account, id=user_id)
+
+    if request.method == "POST":
+        new_password = request.POST.get("new_password")
+        confirm_password = request.POST.get("confirm_password")
+
+        if new_password != confirm_password:
+            return render(request, "app/changePassword.html", {
+                "error_message": "Passwords do not match."
+            })
+
+        # Hash and save the new password
+        user.password = make_password(new_password)
+        user.save()
+        return redirect("menu")  # Redirect after successful password change
+
+    return render(request, "app/changePassword.html")
 def system_settings(request):
     return render(request, 'app/system_settings.html')
 def create_cat(request):
