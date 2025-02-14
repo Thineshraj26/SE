@@ -236,7 +236,8 @@ def import_database(request):
 @login_required
 def report(request):
     cats = Cat.objects.all()  # Fetch all cats from the database
-    return render(request, 'app/report.html', {'cats': cats})
+    cat_treatments = {cat.CatID: Treatment.objects.filter(CatID=cat.CatID) for cat in cats}
+    return render(request, 'app/report.html', {'cats': cats, 'cat_treatments': cat_treatments})
 
 def configure_cat(request, cat_id):
     cat = get_object_or_404(Cat, id=cat_id)
